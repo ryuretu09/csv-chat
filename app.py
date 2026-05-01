@@ -22,14 +22,12 @@ st.markdown("""
 
 # Google認証
 authenticator = Authenticate(
-    secret_credentials_path=None,
     cookie_name="datachat_cookie",
     cookie_key=st.secrets["COOKIE_KEY"],
     redirect_uri=st.secrets["REDIRECT_URI"],
     client_id=st.secrets["GOOGLE_CLIENT_ID"],
     client_secret=st.secrets["GOOGLE_CLIENT_SECRET"],
 )
-
 authenticator.check_authentification()
 
 if not st.session_state.get("connected"):
