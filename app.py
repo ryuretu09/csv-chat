@@ -19,23 +19,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ログインチェック
-if not st.user.is_logged_in:
-    st.markdown("# 📊 DataChat AI")
-    st.markdown('<p class="sub-text">CSVデータをアップロードして、自然言語で質問するだけ。</p>', unsafe_allow_html=True)
-    st.login("google")
-    st.stop()
-
-# ログイン済み
-user_email = st.user.email
-
 st.markdown("# 📊 DataChat AI")
-st.markdown(f'<p class="sub-text">ようこそ、{user_email} さん</p>', unsafe_allow_html=True)
+st.markdown('<p class="sub-text">CSVデータをアップロードして、自然言語で質問するだけ。</p>', unsafe_allow_html=True)
 
-if st.button("ログアウト"):
-    st.logout()
-
-# 利用回数チェック
 if "usage_count" not in st.session_state:
     st.session_state.usage_count = 0
 
@@ -55,12 +41,10 @@ with col1:
 with col2:
     if uploaded_file is not None:
         st.markdown("### 💬 データに質問する")
-
         if remaining <= 0:
-            st.warning("無料回数を使い切りました。続けるには有料プランにアップグレードしてください。")
+            st.warning("無料回数を使い切りました。")
         else:
             question = st.text_input("例：売上が一番高い月は？")
-
             if question:
                 with st.spinner("AI が分析中..."):
                     data_summary = df.to_string(max_rows=50)
