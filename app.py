@@ -23,8 +23,7 @@ st.markdown("""
 if not st.user.is_logged_in:
     st.markdown("# 📊 DataChat AI")
     st.markdown('<p class="sub-text">CSVデータをアップロードして、自然言語で質問するだけ。</p>', unsafe_allow_html=True)
-    if st.button("Googleでログイン"):
-        st.login("google")
+    st.login("google")
     st.stop()
 
 # ログイン済み
