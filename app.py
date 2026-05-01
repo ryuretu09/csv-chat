@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import anthropic
-from streamlit_google_auth import Authenticate
 
 st.set_page_config(
     page_title="DataChat AI",
@@ -20,30 +19,22 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Google認証
-authenticator = Authenticate(
-    cookie_name="datachat_cookie",
-    cookie_key=st.secrets["COOKIE_KEY"],
-    redirect_uri=st.secrets["REDIRECT_URI"],
-    client_id=st.secrets["GOOGLE_CLIENT_ID"],
-    client_secret=st.secrets["GOOGLE_CLIENT_SECRET"],
-)
-authenticator.check_authentification()
-
-if not st.session_state.get("connected"):
+# ログインチェック
+if not st.user.is_logged_in:
     st.markdown("# 📊 DataChat AI")
     st.markdown('<p class="sub-text">CSVデータをアップロードして、自然言語で質問するだけ。</p>', unsafe_allow_html=True)
-    authenticator.login()
+    if st.button("Googleでログイン"):
+        st.login("google")
     st.stop()
 
 # ログイン済み
-user_email = st.session_state["user_info"]["email"]
+user_email = st.user.email
 
 st.markdown("# 📊 DataChat AI")
 st.markdown(f'<p class="sub-text">ようこそ、{user_email} さん</p>', unsafe_allow_html=True)
 
 if st.button("ログアウト"):
-    authenticator.logout()
+    st.logout()
 
 # 利用回数チェック
 if "usage_count" not in st.session_state:
