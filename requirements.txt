@@ -1,4 +1,3 @@
-streamlit==1.45.0
+streamlit
 pandas
 anthropic
-Authlib>=1.3.2
